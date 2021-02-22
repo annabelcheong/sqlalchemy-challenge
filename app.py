@@ -5,8 +5,8 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, func
 from sqlalchemy import distinct
+import datetime as dt
 from flask import Flask, jsonify
-
 
 #################################################
 # Database Setup
@@ -77,6 +77,7 @@ def Measurement_dict():
 ######
 ######
 #Stations Page
+#Return list of unique stations
 @app.route("/api/v1.0/stations/")
 def Stations_list():
 ###########################################################
@@ -93,7 +94,36 @@ def Stations_list():
 #############################################################
     return jsonify(distinct_stations_qry)
 
+######
+######
+# Temperature of Obervations (TOBS) Page
+# Query the dates and temperature observations of the most active station for the last year of data.
+# Return a JSON list of temperature observations (TOBS) for the previous year.
+@app.route("/api/v1.0/tobs/")
+def tob_list():
+###########################################################
+## QUERY ##
+    # Create our session (link) from Python to the DB
+    session = Session(engine)
 
+    #Station with highest number of TOBS (Temperature Observations): 'USC00519281'
+
+    # Query for 1 yr ago from the latest_date
+    query_date = dt.date(2017, 8, 23) - dt.timedelta(days=365)
+    print("Query Date: ", query_date)
+
+    #FOR station 'USC00519281' and only for data in latest year, query for a list which includes x-axis: Temps, y-axis: Frequency. 
+    print("Query Date: ", query_date) #From 2016-08-23 (Query Date) to 2017-08-23
+
+    freq_of_temps_qry = session.query(Measurement.station, Measurement.tobs).\
+        filter(Measurement.station == 'USC00519281').\
+        filter(Measurement.date >= query_date).\
+        order_by((Measurement.tobs).asc()).all()
+
+    session.close()
+
+#############################################################
+    return jsonify(freq_of_temps_qry)
 
 
 
