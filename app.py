@@ -35,13 +35,13 @@ app = Flask(__name__)
 @app.route("/")
 def homepage():
      return (
-         f"Welcome to the Climate API!<br/>"
+         f"Welcome to the Climate API!<br/><br/>"
          f"Available Routes:<br/>"
          f"/api/v1.0/precipitation<br/>"
          f"/api/v1.0/stations<br/>"
          f"/api/v1.0/tobs<br/>"
-         f"/api/v1.0/<start><br/>"
-         f"/api/v1.0/<start><end><br/>"
+         f"/api/v1.0/start *start is in format YYYY-MM-DD <br/>"
+         f"/api/v1.0/start/end *start and end is in format YYYY-MM-DD<br/>"
     )
 
 #####################
@@ -165,11 +165,6 @@ def start_date_tmin_tmax_tavg(start):
 
     return jsonify(f"User specified start date: {start}, Min Temp (F): {min_tobs_startdate_qry}, \n Max Temp (F): {max_tobs_startdate_qry} \n Avg Temp (F): {avg_tobs_startdate_qry}")
  
-    
-
-
-
-
 
 # # Min, Max, Avg Temp for given Start and End Date Page
 # @app.route("/api/v1.0/<start>/<end>")
@@ -209,84 +204,12 @@ def start_end_date_tmin_tmax_tavg(start, end):
 
     session.close()
 
-# ################
+################
 
     return jsonify(f"User specified start date: {start} and end date: {end}, Min Temp (F): {min_tobs_startdate_qry}, \n Max Temp (F): {max_tobs_startdate_qry} \n Avg Temp (F): {avg_tobs_startdate_qry}")
  
     
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# #     #User entry in the website for the date in 
-# #     user_input = date.replace(" ", "")
-# #     # for d in Measurement_dict:
-# #     #     return jsonify(d)
-        
-
-# # @app.route("/api/v1.0/justice-league/justice-league/superhero/<superhero>")
-# # def justice_league_character(superhero):
-# #     """Fetch the Justice League character whose superhero matches
-# #        the path variable supplied by the user, or a 404 if not."""
-
-# #     canonicalized = superhero.replace(" ", "").lower() #From API, what user enters in the website
-# #     for character in justice_league_members:
-# #         search_term = character["superhero"].replace(" ", "").lower() #Changes letters in dictionary
-
-# #         if search_term == canonicalized:
-# #             return jsonify(character)
-
-# #     return jsonify({"error": f"Character with superhero {superhero} not found."}), 404
-
-
-
-# #     # Convert list of tuples into normal list
-# #     # Measurement_list = list(np.ravel(Measurement_qry))
-
-# #     return jsonify(Measurement_dict)
-
-# # #     """Fetch the Justice League character whose real_name matches
-# # #        the path variable supplied by the user, or a 404 if not."""
-
-# # #     canonicalized = real_name.replace(" ", "").lower() #From API, what user enters
-# # #     for character in justice_league_members:
-# # #         search_term = character["real_name"].replace(" ", "").lower() #Changes letters in dictionary
-
-# # #         if search_term == canonicalized:
-# # #             return jsonify(character)
-
-# # #     return jsonify({"error": f"Character with real_name {real_name} not found."}), 404
-
-
-
-
-
-
-
-
-# #Convert the query results to a dictionary using date as the key and prcp as the value.
-# # Measurement_yr = session.query(Measurement.date, Measurement.prcp).\
-# #     filter(Measurement.date >= query_date).\
-# #     order_by(Measurement.date).\
-# #     all()
-# #print(Measurement_yr)
-
-
-# # # Create our session (link) from Python to the DB
-# # session = Session(engine)
-# # ]
 
 
 if __name__ == "__main__":
